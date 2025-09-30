@@ -11,7 +11,7 @@ pub enum CoreError {
   Unknown
 }
 
-pub fn check_range(value: u8, min: u8, max: u8, entity_name: &'static String) -> Result<(), CoreError> {
+pub fn check_range(value: u8, min: u8, max: u8, entity_name: &'static str) -> Result<(), CoreError> {
   let reason_string = format!("Must be in range {min} to {max}");
 
   if value < min || value > max {
