@@ -3,6 +3,8 @@ edition = "2024"
 name = "openfootball_core"
 
 [dependencies]
+chrono = { workspace = true }
+
 thiserror = { workspace = true }
 
 serde = { workspace = true }
