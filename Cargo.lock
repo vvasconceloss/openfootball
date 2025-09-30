@@ -2400,6 +2400,9 @@ dependencies = [
 [[package]]
 name = "openfootball_core"
 version = "0.0.0"
+dependencies = [
+ "thiserror 2.0.17",
+]
 
 [[package]]
 name = "option-ext"

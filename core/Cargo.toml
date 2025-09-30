@@ -3,3 +3,4 @@ edition = "2024"
 name = "openfootball_core"
 
 [dependencies]
+thiserror = { workspace = true }

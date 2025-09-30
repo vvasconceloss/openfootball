@@ -15,3 +15,6 @@ version = "0.1.0"
 description = "A football simulation project."
 repository = "https://github.com/vvasconceloss/openfootball"
 authors = ["Victor Olimpio Vasconcelos <vvasconcelos.dev@gmail.com>"]
+
+[workspace.dependencies]
+thiserror = "2.0.17"
