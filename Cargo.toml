@@ -1,0 +1,17 @@
+[workspace]
+resolver = "3"
+members = [
+  "core",
+  "simulation",
+  "application", 
+  "persistence", 
+  "tauri/src-tauri",
+]
+
+[workspace.package]
+license = "MIT"
+edition = "2024"
+version = "0.1.0"
+description = "A football simulation project."
+repository = "https://github.com/vvasconceloss/openfootball"
+authors = ["Victor Olimpio Vasconcelos <vvasconcelos.dev@gmail.com>"]

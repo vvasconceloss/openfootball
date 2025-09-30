@@ -1,0 +1,5 @@
+[package]
+edition = "2024"
+name = "simulation"
+
+[dependencies]
