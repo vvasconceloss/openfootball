@@ -33,6 +33,14 @@ pub struct Technical {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+pub struct Goalkeeping {
+  pub diving: u8,
+  pub handling: u8,
+  pub reflexes: u8,
+  pub distribution: u8
+}
+
+#[derive(Debug, Serialize, Deserialize)]
 pub struct PlayerAttributes {
   pub id: i32,
   pub mental: Mental,
@@ -79,6 +87,19 @@ impl Technical {
     check_range(finishing, MIN_ATTRIBUTE, MAX_ATTRIBUTE, entity_name)?;
 
     Ok( Technical { vision, passing, heading, crossing, tackling, dribbling, finishing } )
+  }
+}
+
+impl Goalkeeping {
+  pub fn new(diving: u8, handling: u8, reflexes: u8, distribution: u8  ) -> Result<Self, CoreError> {
+    let entity_name = "Goalkeeping";
+
+    check_range(diving, MIN_ATTRIBUTE, MAX_ATTRIBUTE, entity_name)?;
+    check_range(handling, MIN_ATTRIBUTE, MAX_ATTRIBUTE, entity_name)?;
+    check_range(reflexes, MIN_ATTRIBUTE, MAX_ATTRIBUTE, entity_name)?;
+    check_range(distribution, MIN_ATTRIBUTE, MAX_ATTRIBUTE, entity_name)?;
+
+    Ok( Goalkeeping { diving, handling, reflexes, distribution } )
   }
 }
 
