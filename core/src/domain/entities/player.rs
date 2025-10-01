@@ -1,7 +1,7 @@
 use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 
-use crate::{domain::{entities::player_attributes::PlayerAttributes, enums::position::Position}, errors::CoreError};
+use crate::{domain::{enums::position::Position, value_objects::player_attributes::PlayerAttributes}, errors::CoreError};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Player {
