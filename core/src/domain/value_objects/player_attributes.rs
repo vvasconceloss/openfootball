@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::errors::{check_range, CoreError};
+use crate::{domain::enums::position::Position, errors::{check_range, CoreError}};
 
 const MIN_ATTRIBUTE: u8 = 1;
 const MAX_ATTRIBUTE: u8 = 20;
@@ -58,6 +58,16 @@ impl Mental {
 
     Ok( Mental { decision, leadership, determination } )
   }
+
+  pub fn calc_weighted_score(&self, position: &Position) -> Result<u8, CoreError> {
+    let weight = Position::get_weights(position);
+
+    let total_mental = (self.decision * weight.decision) 
+      + (self.determination * weight.determination) 
+      + (self.leadership * weight.leadership);
+
+    Ok(total_mental)
+  }
 }
 
 impl Physical {
@@ -71,6 +81,18 @@ impl Physical {
     check_range(acceleration, MIN_ATTRIBUTE, MAX_ATTRIBUTE, entity_name)?;
 
     Ok( Physical { pace, stamina, jumping, strength, acceleration } )
+  }
+
+  pub fn calc_weighted_score(&self, position: &Position) -> Result<u8, CoreError> {
+    let weight = Position::get_weights(position);
+
+    let total_physical = (self.acceleration * weight.acceleration) 
+      + (self.jumping * weight.jumping) 
+      + (self.pace * weight.pace) 
+      + (self.stamina * weight.stamina) 
+      + (self.strength * weight.strength);
+
+    Ok(total_physical)
   }
 }
 
@@ -88,6 +110,20 @@ impl Technical {
 
     Ok( Technical { vision, passing, heading, crossing, tackling, dribbling, finishing } )
   }
+
+  pub fn calc_weighted_score(&self, position: &Position) -> Result<u8, CoreError> {
+    let weight = Position::get_weights(position);
+
+    let total_technical = (self.crossing * weight.crossing) 
+      + (self.dribbling * weight.dribbling) 
+      + (self.finishing * weight.finishing) 
+      + (self.heading * weight.heading) 
+      + (self.passing * weight.passing) 
+      + (self.tackling * weight.passing) 
+      + (self.vision * weight.vision);
+
+    Ok(total_technical)
+  }
 }
 
 impl Goalkeeping {
@@ -100,6 +136,17 @@ impl Goalkeeping {
     check_range(distribution, MIN_ATTRIBUTE, MAX_ATTRIBUTE, entity_name)?;
 
     Ok( Goalkeeping { diving, handling, reflexes, distribution } )
+  }
+
+  pub fn calc_weighted_score(&self, position: &Position) -> Result<u8, CoreError> {
+    let weight = Position::get_weights(position);
+
+    let total_goalkeeping = (self.distribution * weight.distribution) 
+      + (self.diving * weight.diving) 
+      + (self.handling * weight.handling) 
+      + (self.reflexes * weight.reflexes);
+
+    Ok(total_goalkeeping)
   }
 }
 
