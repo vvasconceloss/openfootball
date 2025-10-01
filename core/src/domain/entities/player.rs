@@ -20,15 +20,27 @@ pub struct Player {
 }
 
 impl Player {
-  pub fn calc_overall(position: &Position, attributes: &PlayerAttributes) -> Result<f32, CoreError> {
-    let score_mental = attributes.mental.calc_weighted_score(position)?;
-    let score_physical = attributes.physical.calc_weighted_score(position)?;
-    let score_technical = attributes.technical.calc_weighted_score(position)?;
+  pub fn calc_overall(position: &Position, attributes: &PlayerAttributes, goalkeeping: &Option<Goalkeeping>) -> Result<f32, CoreError> {
+    let weighted_avg: f32;
+    let weights_sum: u32 = Position::calc_weights_sum(position)?;
 
-    let total_weighting = score_mental + score_physical + score_technical;
-    let weights_sum = Position::calc_weights_sum(position)?;
+    match position {
+      Position::Goalkeeper => {
+        let gk_data = goalkeeping.as_ref().unwrap(); 
+        let score_goalkeeping = gk_data.calc_weighted_score(position)?;
 
-    let weighted_avg: f32 = (total_weighting / weights_sum) as f32;
+        weighted_avg = (score_goalkeeping / weights_sum) as f32;
+      }
+      _ => {
+        let score_mental = attributes.mental.calc_weighted_score(position)?;
+        let score_physical = attributes.physical.calc_weighted_score(position)?;
+        let score_technical = attributes.technical.calc_weighted_score(position)?;
+
+        let total_weighting: u32 = score_mental + score_physical + score_technical;
+    
+        weighted_avg = (total_weighting / weights_sum) as f32;
+      }
+    }
 
     Ok(weighted_avg.ceil())
   }
@@ -71,8 +83,6 @@ impl Player {
 
     let is_goalkeeper: Option<Goalkeeping>;
 
-    let overall = Self::calc_overall(&primary_position, &attributes)? as u8;
-
     match primary_position {
       Position::Goalkeeper => {
         if diving.is_none() || handling.is_none() || reflexes.is_none() || distribution.is_none() {
@@ -95,6 +105,8 @@ impl Player {
         is_goalkeeper = None;
       }
     }
+
+    let overall = Player::calc_overall(&primary_position, &attributes, &is_goalkeeper)? as u8;
 
     Ok( Player { 
       id, 
