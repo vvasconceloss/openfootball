@@ -24,11 +24,11 @@ mod tests {
 
     let birth_date = NaiveDate::parse_from_str("08-07-2006", "%d-%m-%Y")?;
 
-    let primary_position = Position::Striker;
+    let primary_position = Position::RightWinger;
     let mut secondary_positions = Vec::new();
 
+    secondary_positions.push(Position::Striker);
     secondary_positions.push(Position::LeftWinger);
-    secondary_positions.push(Position::RightWinger);
 
     let player = Player::new(
       1, 
