@@ -22,25 +22,26 @@ pub struct Player {
 impl Player {
   pub fn calc_overall(position: &Position, attributes: &PlayerAttributes, goalkeeping: &Option<Goalkeeping>) -> Result<f32, CoreError> {
     let weighted_avg: f32;
+    let total_weighting: u32;
     let weights_sum: u32 = Position::calc_weights_sum(position)?;
+
+    let score_mental = attributes.mental.calc_weighted_score(position)?;
+    let score_physical = attributes.physical.calc_weighted_score(position)?;
+    let score_technical = attributes.technical.calc_weighted_score(position)?;
 
     match position {
       Position::Goalkeeper => {
         let gk_data = goalkeeping.as_ref().unwrap(); 
         let score_goalkeeping = gk_data.calc_weighted_score(position)?;
-
-        weighted_avg = (score_goalkeeping / weights_sum) as f32;
+        
+        total_weighting = score_mental + score_physical + score_technical + score_goalkeeping;
       }
       _ => {
-        let score_mental = attributes.mental.calc_weighted_score(position)?;
-        let score_physical = attributes.physical.calc_weighted_score(position)?;
-        let score_technical = attributes.technical.calc_weighted_score(position)?;
-
-        let total_weighting: u32 = score_mental + score_physical + score_technical;
-    
-        weighted_avg = (total_weighting / weights_sum) as f32;
+        total_weighting = score_mental + score_physical + score_technical;
       }
     }
+
+    weighted_avg = (total_weighting / weights_sum) as f32;
 
     Ok(weighted_avg.ceil())
   }
