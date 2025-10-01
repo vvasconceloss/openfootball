@@ -1,7 +1,7 @@
 use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 
-use crate::{domain::entities::player_attributes::PlayerAttributes, errors::CoreError};
+use crate::{domain::{entities::player_attributes::PlayerAttributes, enums::position::Position}, errors::CoreError};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Player {
@@ -12,7 +12,10 @@ pub struct Player {
   pub last_name: String,
   pub first_name: String,
   pub birth_date: NaiveDate,
-  pub attributes: PlayerAttributes
+  pub attributes: PlayerAttributes,
+  
+  pub primary_position: Position,
+  pub secondary_positions: Vec<Position>,
 }
 
 impl Player {
@@ -24,7 +27,9 @@ impl Player {
     last_name: String, 
     first_name: String,
     birth_date: NaiveDate,
-    attributes: PlayerAttributes
+    attributes: PlayerAttributes,
+    primary_position: Position,
+    secondary_positions: Vec<Position>
   ) -> Result<Self, CoreError> {
     if nation_id < 1 {
       return Err(CoreError::ValidationError { 
@@ -55,7 +60,9 @@ impl Player {
       last_name,
       first_name,
       birth_date, 
-      attributes 
+      attributes,
+      primary_position,
+      secondary_positions
     } )
   }
 }
