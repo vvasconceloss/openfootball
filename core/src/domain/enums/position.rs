@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::domain::{value_objects::position_weights::PositionWeights, weights::{am_weights::AM_WEIGHTS, cb_weights::CB_WEIGHTS, cm_weights::CM_WEIGHTS, dm_weights::DM_WEIGHTS, fb_weights::FB_WEIGHTS, gk_weights::GK_WEIGHTS, sm_weights::SM_WEIGHTS, ss_weights::SS_WEIGHTS, st_weights::ST_WEIGHTS, sw_weights::SW_WEIGHTS}};
+use crate::{domain::{value_objects::position_weights::PositionWeights, weights::{am_weights::AM_WEIGHTS, cb_weights::CB_WEIGHTS, cm_weights::CM_WEIGHTS, dm_weights::DM_WEIGHTS, fb_weights::FB_WEIGHTS, gk_weights::GK_WEIGHTS, sm_weights::SM_WEIGHTS, ss_weights::SS_WEIGHTS, st_weights::ST_WEIGHTS, sw_weights::SW_WEIGHTS}}, errors::CoreError};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub enum Position {
@@ -38,5 +38,17 @@ impl Position {
       Position::SecondStriker => &SS_WEIGHTS,
       Position::Striker => &ST_WEIGHTS
     }
+  }
+
+  pub fn calc_weights_sum(position: &Position) -> Result<u32, CoreError> {
+    let weight = Position::get_weights(position);
+
+    let mental_weights = weight.decision + weight.leadership + weight.determination;
+    let physical_weights = weight.pace + weight.stamina + weight.jumping + weight.strength +  weight.acceleration;
+    let technical_weights = weight.vision + weight.passing + weight.heading + weight.crossing + weight.tackling + weight.decision + weight.dribbling;
+
+    let weight_sum = mental_weights + physical_weights + technical_weights;
+
+    Ok(weight_sum.into())
   }
 }
