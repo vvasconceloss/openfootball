@@ -43,9 +43,9 @@ impl Position {
   pub fn calc_weights_sum(position: &Position) -> Result<u32, CoreError> {
     let weight = Position::get_weights(position);
 
-    let mental_weights = weight.decision + weight.leadership + weight.determination;
-    let physical_weights = weight.pace + weight.stamina + weight.jumping + weight.strength +  weight.acceleration;
-    let technical_weights = weight.vision + weight.passing + weight.heading + weight.crossing + weight.tackling + weight.decision + weight.dribbling;
+    let mental_weights: u32 = (weight.decision + weight.leadership + weight.determination).into();
+    let physical_weights: u32 = (weight.pace + weight.stamina + weight.jumping + weight.strength +  weight.acceleration).into();
+    let technical_weights: u32 = (weight.vision + weight.passing + weight.heading + weight.crossing + weight.tackling + weight.decision + weight.dribbling).into();
 
     let weight_sum = mental_weights + physical_weights + technical_weights;
 

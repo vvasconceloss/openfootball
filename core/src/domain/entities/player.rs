@@ -43,10 +43,10 @@ impl Player {
     attributes: PlayerAttributes,
     primary_position: Position,
     secondary_positions: Vec<Position>,
-    diving: Option<u8>,
-    handling: Option<u8>,
-    reflexes: Option<u8>,
-    distribution: Option<u8>
+    diving: Option<u32>,
+    handling: Option<u32>,
+    reflexes: Option<u32>,
+    distribution: Option<u32>
   ) -> Result<Self, CoreError> {
     if nation_id < 1 {
       return Err(CoreError::ValidationError { 
