@@ -46,8 +46,6 @@ mod tests {
       None
     )?;
 
-    println!("{:?}", player);
-
     let expected_overall: u8 = 15;
 
     assert_eq!(
