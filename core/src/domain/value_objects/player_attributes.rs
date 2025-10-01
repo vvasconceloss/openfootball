@@ -59,14 +59,14 @@ impl Mental {
     Ok( Mental { decision, leadership, determination } )
   }
 
-  pub fn calc_weighted_score(&self, position: &Position) -> Result<u8, CoreError> {
+  pub fn calc_weighted_score(&self, position: &Position) -> Result<u32, CoreError> {
     let weight = Position::get_weights(position);
 
     let total_mental = (self.decision * weight.decision) 
       + (self.determination * weight.determination) 
       + (self.leadership * weight.leadership);
 
-    Ok(total_mental)
+    Ok(total_mental.into())
   }
 }
 
@@ -83,7 +83,7 @@ impl Physical {
     Ok( Physical { pace, stamina, jumping, strength, acceleration } )
   }
 
-  pub fn calc_weighted_score(&self, position: &Position) -> Result<u8, CoreError> {
+  pub fn calc_weighted_score(&self, position: &Position) -> Result<u32, CoreError> {
     let weight = Position::get_weights(position);
 
     let total_physical = (self.acceleration * weight.acceleration) 
@@ -92,7 +92,7 @@ impl Physical {
       + (self.stamina * weight.stamina) 
       + (self.strength * weight.strength);
 
-    Ok(total_physical)
+    Ok(total_physical.into())
   }
 }
 
@@ -111,7 +111,7 @@ impl Technical {
     Ok( Technical { vision, passing, heading, crossing, tackling, dribbling, finishing } )
   }
 
-  pub fn calc_weighted_score(&self, position: &Position) -> Result<u8, CoreError> {
+  pub fn calc_weighted_score(&self, position: &Position) -> Result<u32, CoreError> {
     let weight = Position::get_weights(position);
 
     let total_technical = (self.crossing * weight.crossing) 
@@ -122,7 +122,7 @@ impl Technical {
       + (self.tackling * weight.passing) 
       + (self.vision * weight.vision);
 
-    Ok(total_technical)
+    Ok(total_technical.into())
   }
 }
 
@@ -138,7 +138,7 @@ impl Goalkeeping {
     Ok( Goalkeeping { diving, handling, reflexes, distribution } )
   }
 
-  pub fn calc_weighted_score(&self, position: &Position) -> Result<u8, CoreError> {
+  pub fn calc_weighted_score(&self, position: &Position) -> Result<u32, CoreError> {
     let weight = Position::get_weights(position);
 
     let total_goalkeeping = (self.distribution * weight.distribution) 
@@ -146,7 +146,7 @@ impl Goalkeeping {
       + (self.handling * weight.handling) 
       + (self.reflexes * weight.reflexes);
 
-    Ok(total_goalkeeping)
+    Ok(total_goalkeeping.into())
   }
 }
 
