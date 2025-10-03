@@ -1,3 +1,4 @@
+pub mod game;
 pub mod club;
 pub mod player;
 pub mod season;
