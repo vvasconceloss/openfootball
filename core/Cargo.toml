@@ -3,6 +3,7 @@ edition = "2024"
 name = "openfootball_core"
 
 [dependencies]
+uuid = { workspace = true }
 chrono = { workspace = true }
 
 thiserror = { workspace = true }
